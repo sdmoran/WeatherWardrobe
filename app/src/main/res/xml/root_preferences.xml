@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_fragment_id"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <PreferenceCategory android:title="@string/ui">
+
+                <Preference
+                    android:key="langAndReg_key"
+                    android:summary="Change the language and region"
+                    android:title="@string/language_setting_label" />
+
+                <ListPreference
+                    android:defaultValue="@string/dark_mode_def_value"
+                    android:entries="@array/dark_mode_entries"
+                    android:entryValues="@array/dark_mode_values"
+                    android:key="@string/dark_mode"
+                    android:title="@string/dark_mode"/>
+
+                <Preference
+                    android:key="units_key"
+                    android:summary="Change units"
+                    android:title="@string/units_setting_label" />
+
+        </PreferenceCategory>
+
+        <Preference
+            android:key="feedback_key"
+            android:summary="Report technical issues or suggest new features"
+            android:title="@string/send_feedback_label" />
+
+        <Preference
+            android:key="help_key"
+            android:summary="Need Help?"
+            android:title="@string/help_label" />
+
+</PreferenceScreen>
+
