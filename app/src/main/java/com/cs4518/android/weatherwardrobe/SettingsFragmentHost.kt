@@ -3,7 +3,7 @@ package com.cs4518.android.weatherwardrobe
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class ClothingItemHost : AppCompatActivity() {
+class SettingsFragmentHost : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -13,7 +13,7 @@ class ClothingItemHost : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null) {
-            val fragment = ClothingItemFragment()
+            val fragment = AppSettingsFragment()
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
