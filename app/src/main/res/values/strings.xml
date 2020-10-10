@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">WeatherWardrobe</string>
+    <!-- Hints -->
+    <string name="clothing_item_name_hint">Enter a name for the clothing item.</string>
+    <string name="clothing_item_type_hint">Enter a type for the clothing item.</string>
+    <!-- Labels -->
+    <string name="clothing_item_name_label">Item Name</string>
+    <string name="clothing_item_type_label">Item Type</string>
+    <string name="clothing_item_tags_label">Item Tags</string>
+    <string name="nav_back_label">Back</string>
+    <string name="nav_save_label">Save</string>
+
 </resources>
