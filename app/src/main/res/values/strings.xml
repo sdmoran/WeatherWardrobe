@@ -4,10 +4,18 @@
     <string name="clothing_item_name_hint">Enter a name for the clothing item.</string>
     <string name="clothing_item_type_hint">Enter a type for the clothing item.</string>
     <!-- Labels -->
+    <!-- Individual Clothing -->
     <string name="clothing_item_name_label">Item Name</string>
     <string name="clothing_item_type_label">Item Type</string>
     <string name="clothing_item_tags_label">Item Tags</string>
     <string name="nav_back_label">Back</string>
     <string name="nav_save_label">Save</string>
+
+    <!-- Settings Page -->
+    <string name="language_setting_label">Language and Region:</string>
+    <string name="theme_setting_label">Theme:</string>
+    <string name="units_setting_label">Change Units:</string>
+    <string name="send_feedback_label">Send Feedback:</string>
+    <string name="help_label">Help:</string>
 
 </resources>
