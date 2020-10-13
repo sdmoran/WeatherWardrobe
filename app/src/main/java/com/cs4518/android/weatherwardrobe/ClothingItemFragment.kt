@@ -121,6 +121,12 @@ class ClothingItemFragment : Fragment() {
         nameField.addTextChangedListener(nameWatcher)
         typeField.addTextChangedListener(typeWatcher)
         tagsField.addTextChangedListener(tagWatcher)
+
+        save_button.setOnClickListener{
+            //clothingItem.clothingName
+            //clothingItem.clothingType
+            //clothingItem.clothingAttribute
+        }
     }
 
 }
