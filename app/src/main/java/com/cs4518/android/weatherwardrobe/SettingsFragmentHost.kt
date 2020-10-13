@@ -64,7 +64,7 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
         }
 
         navToWardrobe.setOnClickListener  {
-            val fragment = WeatherFragment()
+            val fragment = WardrobeListFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
