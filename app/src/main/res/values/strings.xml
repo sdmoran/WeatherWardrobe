@@ -23,4 +23,6 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_def_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
 
+    <string name="search">Search</string>
+    <string name="clear_search">Clear Search</string>
 </resources>
