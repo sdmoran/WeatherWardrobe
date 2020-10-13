@@ -1,4 +1,4 @@
-package com.cs4518.android.weatherwardrobe.weather
+package com.cs4518.android.weatherwardrobe.weather.data
 
 import com.google.gson.annotations.SerializedName
 

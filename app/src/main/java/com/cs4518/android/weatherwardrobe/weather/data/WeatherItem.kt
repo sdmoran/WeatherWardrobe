@@ -1,4 +1,4 @@
-package com.cs4518.android.weatherwardrobe.weather
+package com.cs4518.android.weatherwardrobe.weather.data
 
 
 data class WeatherItem(
