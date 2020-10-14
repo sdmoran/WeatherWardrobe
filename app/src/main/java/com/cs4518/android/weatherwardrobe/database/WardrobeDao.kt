@@ -2,6 +2,7 @@ package com.cs4518.android.weatherwardrobe.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.cs4518.android.weatherwardrobe.WardrobeItem
@@ -17,5 +18,8 @@ interface WardrobeDao {
 
     @Insert
     fun addWardrobeItem(wardrobeItem: WardrobeItem)
+
+    @Query("DELETE FROM wardrobeitem")
+    fun clearDB()
 
 }

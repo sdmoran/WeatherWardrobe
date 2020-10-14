@@ -42,6 +42,12 @@ class WardrobeRepository private constructor(context: Context) {
         }
     }
 
+    fun clearDB() {
+        executor.execute {
+            wardrobeDao.clearDB()
+        }
+    }
+
     companion object {
         private var INSTANCE: WardrobeRepository? = null
 
