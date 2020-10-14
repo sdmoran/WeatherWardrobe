@@ -100,6 +100,7 @@ class WeatherFragment : Fragment() {
                     )
                     val precipitation: String = formatPrecipitation(weatherResponse.hourly.first().pop)
                     val uv: String = currentData.uvi.toInt().toString()
+                    val uvDesc: String = formatUVDesc(currentData.uvi)
                     val pressure: String = formatPressure(currentData.pressure)
                     val visibility: String = formatVisibility(currentData.visibility)
                     val dewPoint: String = formatDewPoint(currentData.dew_point)
@@ -115,6 +116,8 @@ class WeatherFragment : Fragment() {
                     holder.currentMinMaxTextView.text = minMax
                     holder.currentPrecipitationTextView.text = precipitation
                     holder.currentUvTextView.text = uv
+                    holder.currentUvDescTextView.text = uvDesc
+
                     holder.currentPressureTextView.text = pressure
                     holder.currentVisibilityTextView.text = visibility
                     holder.currentDewPointTextView.text = dewPoint
@@ -142,6 +145,15 @@ class WeatherFragment : Fragment() {
                     holder.hourlyDescription.text = description
                 }
             }
+        }
+        private fun formatUVDesc(uv: Float): String{
+            return when(uv.toInt()){
+                in 0..2 -> "UV-Low"
+                in 3..5 -> "UV-Moderate"
+                in 6..7 -> "UV-High"
+                else -> "UV-Very high"
+            }
+
         }
         private fun formatLocation(city: String, state: String): String{
             return "$city, $state"
@@ -245,6 +257,7 @@ class WeatherFragment : Fragment() {
         val currentDescription: TextView = itemView.findViewById(R.id.current_description)
         val currentMinMaxTextView: TextView = itemView.findViewById(R.id.current_minmax)
         val currentUvTextView: TextView = itemView.findViewById(R.id.current_uv)
+        val currentUvDescTextView: TextView = itemView.findViewById(R.id.current_uv_desc)
         val currentPrecipitationTextView:TextView = itemView.findViewById(R.id.current_precipitation)
         val currentPressureTextView:TextView = itemView.findViewById(R.id.current_pressure)
         val currentVisibilityTextView:TextView = itemView.findViewById(R.id.current_visibility)

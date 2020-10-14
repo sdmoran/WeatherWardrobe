@@ -158,9 +158,10 @@
         android:background="@drawable/layout_bg"
         android:gravity="center">
         <TextView
+            android:id="@+id/current_uv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UV"/>
+            android:text="UV-Low"/>
         <TextView
             android:id="@+id/current_uv"
             android:layout_width="wrap_content"
