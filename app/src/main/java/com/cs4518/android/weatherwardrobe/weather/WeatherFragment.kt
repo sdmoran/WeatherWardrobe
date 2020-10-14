@@ -55,7 +55,7 @@ class WeatherFragment : Fragment() {
 
         // Return the size of your dataset (invoked by the layout manager)
         override fun getItemCount(): Int {
-            return 48
+            return 25
         }
 
         override fun getItemViewType(position: Int): Int {
