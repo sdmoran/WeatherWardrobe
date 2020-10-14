@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:weightSum="6"
+    android:background="@drawable/layout_bg"
     android:padding="8dp">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight=".9"
             android:padding="8dp">
         <TextView
             android:id="@+id/hourly_hour"
@@ -28,7 +29,7 @@
         android:id="@+id/hourly_icon"
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight=".8"
         android:contentDescription="test"
         android:gravity="center"
         android:src="@drawable/a01d" />
@@ -46,13 +47,13 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.8"
+        android:layout_weight="2"
         android:padding="8dp">
         <TextView
             android:id="@+id/hourly_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Light rain"/>
+            android:text="Scattered clouds"/>
 
         <TextView
             android:id="@+id/hourly_wind"
@@ -76,21 +77,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/hourly_humidity_image"
+                android:id="@+id/hourly_precipitation_image"
                 android:layout_height="20dp"
                 android:layout_width="20dp"
                 android:contentDescription="test"
                 android:paddingEnd="5dp"
                 android:src="@drawable/ic_action_name" />
             <TextView
-                android:id="@+id/hourly_humidity"
+                android:id="@+id/hourly_precipitation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="70%"/>
         </LinearLayout>
     </LinearLayout>
-
-
-
-
 </LinearLayout>

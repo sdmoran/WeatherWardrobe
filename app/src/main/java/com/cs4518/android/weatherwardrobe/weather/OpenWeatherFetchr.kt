@@ -3,6 +3,7 @@ package com.cs4518.android.weatherwardrobe.weather
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.cs4518.android.weatherwardrobe.WardrobeRepository
 import com.cs4518.android.weatherwardrobe.weather.api.OpenWeatherApi
 import com.cs4518.android.weatherwardrobe.weather.api.OpenWeatherResponse
 import retrofit2.Call
@@ -16,6 +17,7 @@ private const val TAG = "OpenWeatherFetchr"
 class OpenWeatherFetchr {
 
     private val openWeatherApi: OpenWeatherApi
+    private val wardrobeRepository = WardrobeRepository.get()
 
     init {
         val retrofit: Retrofit = Retrofit.Builder()
@@ -28,7 +30,11 @@ class OpenWeatherFetchr {
 
     fun fetchWeatherData(): LiveData<OpenWeatherResponse> {
         val responseLiveData: MutableLiveData<OpenWeatherResponse> = MutableLiveData()
-        val openWeatherRequest: Call<OpenWeatherResponse> = openWeatherApi.fetchWeatherData()
+        val url = "data/2.5/onecall?lat=${wardrobeRepository.latitude}" +
+                "&lon=${wardrobeRepository.longitude}" +
+                "&exclude=minutely" +
+                "&appid=f18eebbbbccb30c0097b6bc2f920188d"
+        val openWeatherRequest: Call<OpenWeatherResponse> = openWeatherApi.fetchWeatherData(url)
 
         openWeatherRequest.enqueue(object : Callback<OpenWeatherResponse> {
 

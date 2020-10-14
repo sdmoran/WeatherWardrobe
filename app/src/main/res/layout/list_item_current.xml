@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="30dp">
+        <TextView
+            android:id="@+id/current_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="city, state"
+            android:gravity="center"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4">
+            <TextView
+                android:id="@+id/current_temp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="64sp"
+                android:text="60"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+            <ImageView
+                android:id="@+id/current_icon"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:contentDescription="test"
+                android:gravity="right"
+                android:src="@drawable/a01d"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/current_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:paddingBottom="8dp"
+            android:text="Scattered clouds"/>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:paddingBottom="8dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/current_minmax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="64/49"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  |  "/>
+            <TextView
+                android:id="@+id/current_feels_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feels like 51"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  |  "/>
+            <TextView
+                android:id="@+id/current_wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wind 7 MPH NW"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/current_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Details"/>
+    </LinearLayout>
+    <GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:alignmentMode="alignBounds"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="30dp"
+        android:columnCount="3">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_gravity="fill"
+        android:layout_height="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:background="@drawable/layout_bg"
+
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Precipitation"/>
+        <TextView
+            android:id="@+id/current_precipitation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="0%"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_gravity="fill"
+        android:layout_height="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+
+        android:background="@drawable/layout_bg"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Humidity"/>
+        <TextView
+            android:id="@+id/current_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="80%"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_gravity="fill"
+        android:layout_height="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+
+        android:background="@drawable/layout_bg"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UV"/>
+        <TextView
+            android:id="@+id/current_uv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="4"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_gravity="fill"
+        android:layout_height="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+
+        android:background="@drawable/layout_bg"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visibility"/>
+        <TextView
+            android:id="@+id/current_visibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="10 Mi"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_gravity="fill"
+        android:layout_height="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:background="@drawable/layout_bg"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dew Point"/>
+        <TextView
+            android:id="@+id/current_dew_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="44"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_gravity="fill"
+        android:layout_height="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:background="@drawable/layout_bg"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pressure"/>
+        <TextView
+            android:id="@+id/current_pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="29.90"/>
+    </LinearLayout>
+    </GridLayout>
+</LinearLayout>
