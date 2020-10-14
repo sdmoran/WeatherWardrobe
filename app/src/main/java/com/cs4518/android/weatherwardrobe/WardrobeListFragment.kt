@@ -1,10 +1,13 @@
 package com.cs4518.android.weatherwardrobe
 
+import android.location.Criteria
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,16 +19,42 @@ private const val TAG = "WardrobeListFragment"
 class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
     private var fragmentBinding: FragmentWardrobeListBinding? = null
 
+    private lateinit var binding: FragmentWardrobeListBinding
+
     private lateinit var wardrobe: Wardrobe
-
-    private val wardrobeRepository = WardrobeRepository.get()
-    private val wardrobeItemsLiveData = wardrobeRepository.getWardrobeItems()
-
+    private lateinit var liveDataItems: LiveData<List<WardrobeItem>>
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.fragment_wardrobe_list, menu)
-        wardrobeRepository.addWardrobeItem( WardrobeItem(name="Red Sweater", type="Sweater", tags="Good,Warm,Fluffy"))
+
+        val item = menu.findItem(R.id.menu_item_search)
+        val searchView = item.actionView as SearchView
+
+        searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(queryText: String): Boolean {
+                    Log.d(TAG, "QueryTextSubmit: $queryText")
+                    return true
+                }
+
+                override fun onQueryTextChange(queryText: String): Boolean {
+                    Log.d(TAG, "QueryTextChange: $queryText")
+                    liveDataItems.observe(viewLifecycleOwner,
+                        Observer { items ->
+                            items?.let {
+                                Log.d(TAG, "Got ${items.size}")
+                                updateUI(items, searchStr = queryText)
+                            }
+                        })
+                    return false
+                }
+            })
+        }
+
+//        wardrobeRepository.clearDB()
+//        wardrobeRepository.addWardrobeItem( WardrobeItem(name="Blue Jeans", type="Jeans", tags="PANTS"))
+//        wardrobeRepository.addWardrobeItem( WardrobeItem(name="Red Sweater", type="Sweater", tags="FUZZY"))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,17 +64,17 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
         wardrobe = Wardrobe()
 
         Log.d(TAG, "In onViewCreated!!!")
-        val binding = FragmentWardrobeListBinding.bind(view)
+        binding = FragmentWardrobeListBinding.bind(view)
         fragmentBinding = binding
 
         binding.wardrobeRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            val liveDataItems = wardrobe.items
+            liveDataItems = wardrobe.items
             liveDataItems.observe(viewLifecycleOwner,
             Observer { items ->
                 items?.let {
                     Log.d(TAG, "Got ${items.size}")
-                    adapter = WardrobeItemAdapter(items)
+                    updateUI(items)
                 }
             })
         }
@@ -59,6 +88,7 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
 
     private inner class WardrobeItemHolder(private val binding: ListItemWardrobeBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         init {
             binding.viewModel = WardrobeItemViewModel()
         }
@@ -71,7 +101,7 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
         }
     }
 
-    private inner class WardrobeItemAdapter(private val sounds: List<WardrobeItem>) :
+    private inner class WardrobeItemAdapter(private var items: List<WardrobeItem>) :
         RecyclerView.Adapter<WardrobeItemHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WardrobeItemHolder {
@@ -85,14 +115,29 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
         }
 
         override fun getItemCount(): Int {
-            Log.d(TAG, "GOT ${sounds.size} items!")
-            return sounds.size
+            Log.d(TAG, "GOT ${items.size} items!")
+            return items.size
         }
 
         override fun onBindViewHolder(holder: WardrobeItemHolder, position: Int) {
-            val wardrobeItem = sounds[position]
-            Log.d(TAG, "Attempting to bind ${wardrobeItem.name}")
+            val wardrobeItem = items[position]
+            Log.d(TAG, "Attempting to bind ${wardrobeItem.name}, number ${position}")
             holder.bind(wardrobeItem)
         }
+    }
+
+    private fun updateUI(items: List<WardrobeItem>, searchStr: String = "") {
+        var filtered = items
+        if(searchStr.isNotEmpty()) {
+            filtered = items.filter { it.name.contains(searchStr, ignoreCase = true)
+                                        || it.tags.contains(searchStr, ignoreCase = true)
+                                        || it.type.contains(searchStr, ignoreCase = true)}
+        }
+        val adapter = WardrobeItemAdapter(filtered)
+        Log.d(TAG, "Filtered items: ")
+        for(i in items) {
+            Log.d(TAG, "${i.name}")
+        }
+        binding.wardrobeRecyclerView.adapter = adapter
     }
 }
