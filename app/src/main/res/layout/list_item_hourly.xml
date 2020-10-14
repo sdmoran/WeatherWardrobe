@@ -1,43 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:weightSum="6"
     android:padding="8dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp">
+        <TextView
+            android:id="@+id/hourly_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3 AM"/>
 
-    <TextView
-        android:id="@+id/hourly_hour"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Weather Hour"/>
+        <TextView
+            android:id="@+id/hourly_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Oct 13"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/hourly_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Weather Date"/>
+    <ImageView
+        android:id="@+id/hourly_icon"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:contentDescription="test"
+        android:gravity="center"
+        android:src="@drawable/a01d" />
 
     <TextView
         android:id="@+id/hourly_temp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Weather Temp"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".8"
+        android:gravity="center"
+        android:textSize="32dp"
+        android:text="52"/>
 
-    <TextView
-        android:id="@+id/hourly_feels_like"
-        android:layout_width="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Weather Feels Like"/>
+        android:layout_weight="1.8"
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/hourly_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Light rain"/>
 
-    <TextView
-        android:id="@+id/hourly_humidity"
-        android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/hourly_wind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NNW 7 MPH"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Weather Feels Like"/>
+        android:layout_weight="1.5"
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/hourly_feels_like"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Feels Like 51"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/hourly_humidity_image"
+                android:layout_height="20dp"
+                android:layout_width="20dp"
+                android:contentDescription="test"
+                android:paddingEnd="5dp"
+                android:src="@drawable/ic_action_name" />
+            <TextView
+                android:id="@+id/hourly_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="70%"/>
+        </LinearLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/hourly_wind"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Weather Feels Like"/>
+
+
 
 </LinearLayout>
