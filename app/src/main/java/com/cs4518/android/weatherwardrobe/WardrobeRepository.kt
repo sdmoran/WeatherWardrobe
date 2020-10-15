@@ -6,6 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.cs4518.android.weatherwardrobe.database.WardrobeDatabase
 import com.cs4518.android.weatherwardrobe.weather.data.DayWeatherItem
+import com.cs4518.android.weatherwardrobe.weather.formatPrecipitation
+import com.cs4518.android.weatherwardrobe.weather.formatTemp
+import com.cs4518.android.weatherwardrobe.weather.formatWind
 import java.lang.IllegalStateException
 import java.util.*
 import java.util.concurrent.Executors
@@ -32,6 +35,14 @@ class WardrobeRepository private constructor(context: Context) {
 
 
     lateinit var dailyWeatherData: DayWeatherItem
+
+    fun getTempMax(): String = formatTemp(dailyWeatherData.temp.max)
+    fun getTempMin(): String = formatTemp(dailyWeatherData.temp.min)
+    fun getTempDay(): String = formatTemp(dailyWeatherData.temp.day)
+    fun getChanceOfRain(): String = formatPrecipitation(dailyWeatherData.pop)
+    fun getWind(): String = formatWind(dailyWeatherData.wind_speed, dailyWeatherData.wind_deg)
+    fun getUv(): String = dailyWeatherData.uvi.toInt().toString()
+
     fun getWardrobeItems(): LiveData<List<WardrobeItem>> = wardrobeDao.getWardrobeItems()
 
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?> = wardrobeDao.getWardrobeItem(id)
