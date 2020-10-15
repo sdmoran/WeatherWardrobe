@@ -1,9 +1,6 @@
 package com.cs4518.android.weatherwardrobe.weather
 
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.cs4518.android.weatherwardrobe.R
-import com.cs4518.android.weatherwardrobe.SettingsFragmentHost
 import com.cs4518.android.weatherwardrobe.WardrobeRepository
 import com.cs4518.android.weatherwardrobe.weather.api.OpenWeatherResponse
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 private const val TAG = "WeatherFragment"
@@ -149,7 +143,7 @@ class WeatherFragment : Fragment() {
 
     private class WeatherCurrentHolder(view: View)
         : RecyclerView.ViewHolder(view) {
-        val currentTempTextView: TextView = itemView.findViewById(R.id.current_temp)
+        val currentTempTextView: TextView = itemView.findViewById(R.id.day_temp)
         val currentFeelsLikeTextView: TextView = itemView.findViewById(R.id.current_feels_like)
         val currentHumidityTextView: TextView = itemView.findViewById(R.id.current_humidity)
         val currentWindTextView: TextView = itemView.findViewById(R.id.current_wind)

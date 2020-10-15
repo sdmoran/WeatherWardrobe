@@ -81,7 +81,6 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
                         OpenWeatherFetchr().fetchWeatherData()
                     }
                 }
-
         }
 
 
