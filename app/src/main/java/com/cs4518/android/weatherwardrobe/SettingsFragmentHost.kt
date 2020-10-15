@@ -41,6 +41,10 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
         super.onCreate(savedInstanceState)
         val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
         setContentView(R.layout.activity_main)
+        fusedLocationClient = LocationServices.
+        getFusedLocationProviderClient(this)
+        geocoder = Geocoder(this, Locale.getDefault())
+        updateStatesHash()
 
         if (checkPermission(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -71,10 +75,7 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             OpenWeatherFetchr().fetchWeatherData()
         }
 
-        updateStatesHash()
-        fusedLocationClient = LocationServices.
-        getFusedLocationProviderClient(this)
-        geocoder = Geocoder(this, Locale.getDefault())
+
         val currentFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container)
 
@@ -201,7 +202,7 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
         }
     }
 
-    fun updateStatesHash(){
+    private fun updateStatesHash(){
 
         states["Alabama"] = "AL";
         states["Alaska"] = "AK";
