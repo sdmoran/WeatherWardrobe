@@ -20,6 +20,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.cs4518.android.weatherwardrobe.weather.OpenWeatherFetchr
 import com.cs4518.android.weatherwardrobe.weather.WeatherFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -40,6 +41,36 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
         super.onCreate(savedInstanceState)
         val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
         setContentView(R.layout.activity_main)
+
+        if (checkPermission(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )) {
+            fusedLocationClient?.lastLocation?.
+            addOnSuccessListener(
+                this
+            ) { location: Location? ->
+                if (location == null) {
+                    Log.d("LOCALITY", "No location")
+                } else location.apply {
+                    val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    Log.d("LOCALITY", addresses[0].locality)
+
+
+                    if (addresses.isNotEmpty()) {
+                        wardrobeRepository.cityName = addresses[0].locality
+                        wardrobeRepository.stateName = states[addresses[0].adminArea].toString()
+                    }
+                    Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
+
+                    wardrobeRepository.latitude = location.latitude
+                    wardrobeRepository.longitude = location.longitude
+                    Log.d("LOCALITY", "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}")
+                }
+            }
+            OpenWeatherFetchr().fetchWeatherData()
+        }
+
         updateStatesHash()
         fusedLocationClient = LocationServices.
         getFusedLocationProviderClient(this)

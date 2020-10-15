@@ -36,7 +36,6 @@ class WeatherFragment : Fragment() {
         weatherViewModel =
             ViewModelProviders.of(this).get(WeatherViewModel::class.java)
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
