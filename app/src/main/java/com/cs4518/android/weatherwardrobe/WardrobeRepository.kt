@@ -9,6 +9,7 @@ import com.cs4518.android.weatherwardrobe.weather.data.DayWeatherItem
 import com.cs4518.android.weatherwardrobe.weather.formatPrecipitation
 import com.cs4518.android.weatherwardrobe.weather.formatTemp
 import com.cs4518.android.weatherwardrobe.weather.formatWind
+import java.io.File
 import java.lang.IllegalStateException
 import java.util.*
 import java.util.concurrent.Executors
@@ -27,6 +28,7 @@ class WardrobeRepository private constructor(context: Context) {
     private val wardrobeDao = database.wardrobeDao()
 
     private val executor = Executors.newSingleThreadExecutor()
+    private val filesDir = context.applicationContext.filesDir
 
     var latitude: Double = 0.0
     var longitude: Double = 0.0
@@ -51,11 +53,19 @@ class WardrobeRepository private constructor(context: Context) {
 
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?> = wardrobeDao.getWardrobeItem(id)
 
+    fun updateWarDrobeItem(wardrobeItem: WardrobeItem) {
+        executor.execute {
+            wardrobeDao.updateWardrobeItem(wardrobeItem)
+        }
+    }
+
     fun addWardrobeItem(wardrobeItem: WardrobeItem) {
         executor.execute {
             wardrobeDao.addWardrobeItem(wardrobeItem)
         }
     }
+
+    fun getPhotoFile(wardrobeItem: WardrobeItem): File = File(filesDir, wardrobeItem.photoFileName)
 
     fun addDummyData() {
         executor.execute {

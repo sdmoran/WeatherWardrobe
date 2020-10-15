@@ -1,9 +1,12 @@
 package com.cs4518.android.weatherwardrobe
 
+import android.content.Context
 import android.location.Criteria
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cs4518.android.weatherwardrobe.databinding.FragmentWardrobeListBinding
 import com.cs4518.android.weatherwardrobe.databinding.ListItemWardrobeBinding
+import java.util.*
 
 private const val TAG = "WardrobeListFragment"
 
@@ -23,6 +27,25 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
 
     private lateinit var wardrobe: Wardrobe
     private lateinit var liveDataItems: LiveData<List<WardrobeItem>>
+
+    /**
+     * Required interface for hosting activities
+     */
+    interface Callbacks {
+        fun onWarDrobeSelected(id: UUID)
+    }
+
+    private var callbacks: Callbacks? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -87,17 +110,25 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
     }
 
     private inner class WardrobeItemHolder(private val binding: ListItemWardrobeBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+
+        private var itemCopy = WardrobeItem()
 
         init {
             binding.viewModel = WardrobeItemViewModel()
+            itemView.setOnClickListener(this)
         }
 
         fun bind(item: WardrobeItem) {
             binding.apply {
                 viewModel?.item = item
+                itemCopy = item
                 executePendingBindings()
             }
+        }
+
+        override fun onClick(v: View) {
+            callbacks?.onWarDrobeSelected(itemCopy.id)
         }
     }
 
@@ -111,6 +142,7 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
                 parent,
                 false
             )
+
             return WardrobeItemHolder(binding)
         }
 

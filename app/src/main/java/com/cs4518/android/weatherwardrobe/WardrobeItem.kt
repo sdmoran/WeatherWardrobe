@@ -10,7 +10,7 @@ data class WardrobeItem(@PrimaryKey val id: UUID = UUID.randomUUID(),
                                     var type: String = "",
                                     var tags: String = "" //MutableList<String> = mutableListOf()
                         ) {
-    val fileName
+    val photoFileName
         get() = "IMG_${id}.jpg"
 }
 
