@@ -82,7 +82,6 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
                         OpenWeatherFetchr().fetchWeatherData()
                     }
                 }
-
         }
 
 
@@ -259,12 +258,15 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             if (it == darkModeString) sharedPreferences?.let { pref ->
                 val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
                 when (pref.getString(darkModeString, darkModeValues[0])) {
-                    darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    darkModeValues[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    darkModeValues[3] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+                    darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
             }
+        }
+        if (key == "tempUnitKey") {
+            Log.i(TAG, "Preference value was updated to: " + sharedPreferences?.getBoolean(key, true))
+            //True = fahrenheit, false = Celsius
+
         }
     }
 
