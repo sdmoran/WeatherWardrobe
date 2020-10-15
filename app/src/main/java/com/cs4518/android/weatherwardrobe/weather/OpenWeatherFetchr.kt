@@ -35,7 +35,6 @@ class OpenWeatherFetchr {
                 "&exclude=minutely" +
                 "&appid=f18eebbbbccb30c0097b6bc2f920188d"
         val openWeatherRequest: Call<OpenWeatherResponse> = openWeatherApi.fetchWeatherData(url)
-
         openWeatherRequest.enqueue(object : Callback<OpenWeatherResponse> {
 
             override fun onFailure(call: Call<OpenWeatherResponse>, t: Throwable) {
@@ -50,6 +49,10 @@ class OpenWeatherFetchr {
                 val openWeatherResponse: OpenWeatherResponse? = response.body()
                 val weatherResponse: OpenWeatherResponse? = openWeatherResponse
                 responseLiveData.value = weatherResponse
+                if (weatherResponse != null) {
+                    wardrobeRepository.dailyWeatherData = weatherResponse.daily.first()
+                }
+
             }
         })
 
