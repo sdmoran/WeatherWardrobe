@@ -32,7 +32,9 @@ class WardrobeRepository private constructor(context: Context) {
     var longitude: Double = 0.0
     var cityName: String = ""
     var stateName: String = ""
-
+    var doneExecuting: Boolean = false
+    var executed: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    var pressedGarb: Boolean = false
 
     lateinit var dailyWeatherData: DayWeatherItem
 

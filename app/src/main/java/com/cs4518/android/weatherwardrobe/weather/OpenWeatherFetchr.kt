@@ -51,6 +51,10 @@ class OpenWeatherFetchr {
                 responseLiveData.value = weatherResponse
                 if (weatherResponse != null) {
                     wardrobeRepository.dailyWeatherData = weatherResponse.daily.first()
+                    if(wardrobeRepository.doneExecuting == false && wardrobeRepository.pressedGarb) {
+                        wardrobeRepository.executed.value = true
+                        wardrobeRepository.doneExecuting = true
+                    }
                 }
 
             }

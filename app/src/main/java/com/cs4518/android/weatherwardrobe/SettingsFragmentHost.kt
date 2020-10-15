@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -49,33 +50,38 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
         geocoder = Geocoder(this, Locale.getDefault())
         updateStatesHash()
 
-        if (checkPermission(
+        if(checkPermission(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
             )) {
-            fusedLocationClient?.lastLocation?.
-            addOnSuccessListener(
-                this
-            ) { location: Location? ->
-                if (location == null) {
-                    Log.d("LOCALITY", "No location")
-                } else location.apply {
-                    val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    Log.d("LOCALITY", addresses[0].locality)
+                fusedLocationClient?.lastLocation?.addOnSuccessListener(
+                    this
+                ) { location: Location? ->
+                    if (location == null) {
+                        Log.d("LOCALITY", "No location")
+                    } else location.apply {
+                        val addresses: List<Address> =
+                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+                        Log.d("LOCALITY", addresses[0].locality)
 
 
-                    if (addresses.isNotEmpty()) {
-                        wardrobeRepository.cityName = addresses[0].locality
-                        wardrobeRepository.stateName = states[addresses[0].adminArea].toString()
+                        if (addresses.isNotEmpty()) {
+                            wardrobeRepository.cityName = addresses[0].locality
+                            wardrobeRepository.stateName = states[addresses[0].adminArea].toString()
+                        }
+                        Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
+
+                        wardrobeRepository.latitude = location.latitude
+                        wardrobeRepository.longitude = location.longitude
+                        Log.d(
+                            "LOCALITY",
+                            "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}"
+                        )
+                        OpenWeatherFetchr().fetchWeatherData()
                     }
-                    Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
-
-                    wardrobeRepository.latitude = location.latitude
-                    wardrobeRepository.longitude = location.longitude
-                    Log.d("LOCALITY", "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}")
                 }
-            }
-            OpenWeatherFetchr().fetchWeatherData()
+
         }
 
 
@@ -135,22 +141,59 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             }
         }
 
-//        // For AVD
-//        navToWeather.setOnClickListener  {
-//            val fragment = WeatherFragment()
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, fragment)
-//                .commit()
-//        }
+        val executedObserver = Observer<Boolean> { _ ->
+                val fragment = RecommendationFragment()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+        }
+        wardrobeRepository.executed.observe(this, executedObserver)
 
         navToCurrentGarb.setOnClickListener  {
-            val fragment = RecommendationFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
+            wardrobeRepository.pressedGarb = true
+            if(wardrobeRepository.executed.value == null) {
+                if(checkPermission(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )) {
+                    fusedLocationClient?.lastLocation?.addOnSuccessListener(
+                        this
+                    ) { location: Location? ->
+                        if (location == null) {
+                            Log.d("LOCALITY", "No location")
+                        } else location.apply {
+                            val addresses: List<Address> =
+                                geocoder.getFromLocation(location.latitude, location.longitude, 1)
+
+                            Log.d("LOCALITY", addresses[0].locality)
+
+
+                            if (addresses.isNotEmpty()) {
+                                wardrobeRepository.cityName = addresses[0].locality
+                                wardrobeRepository.stateName = states[addresses[0].adminArea].toString()
+                            }
+                            Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
+
+                            wardrobeRepository.latitude = location.latitude
+                            wardrobeRepository.longitude = location.longitude
+                            Log.d(
+                                "LOCALITY",
+                                "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}"
+                            )
+                            OpenWeatherFetchr().fetchWeatherData()
+                        }
+                    }
+                }
+            }else {
+                val fragment = RecommendationFragment()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+            }
         }
+
 
         navToWardrobe.setOnClickListener  {
             val fragment = WardrobeListFragment()
@@ -216,50 +259,50 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
 
     private fun updateStatesHash(){
 
-        states["Alabama"] = "AL";
-        states["Alaska"] = "AK";
-        states["Alberta"] = "AB";
-        states["American Samoa"] = "AS";
-        states["Arizona"] = "AZ";
-        states["Arkansas"] = "AR";
-        states["Armed Forces (AE)"] = "AE";
-        states["Armed Forces Americas"] = "AA";
-        states["Armed Forces Pacific"] = "AP";
-        states["British Columbia"] = "BC";
-        states["California"] = "CA";
-        states["Colorado"] = "CO";
-        states["Connecticut"] = "CT";
-        states["Delaware"] = "DE";
-        states["District Of Columbia"] = "DC";
-        states["Florida"] = "FL";
-        states["Georgia"] = "GA";
-        states["Guam"] = "GU";
-        states["Hawaii"] = "HI";
-        states["Idaho"] = "ID";
-        states["Illinois"] = "IL";
-        states["Indiana"] = "IN";
-        states["Iowa"] = "IA";
-        states["Kansas"] = "KS";
-        states["Kentucky"] = "KY";
-        states["Louisiana"] = "LA";
-        states["Maine"] = "ME";
-        states["Manitoba"] = "MB";
-        states["Maryland"] = "MD";
-        states["Massachusetts"] = "MA";
-        states["Michigan"] = "MI";
-        states["Minnesota"] = "MN";
-        states["Mississippi"] = "MS";
-        states["Missouri"] = "MO";
-        states["Montana"] = "MT";
-        states["Nebraska"] = "NE";
-        states["Nevada"] = "NV";
-        states["New Brunswick"] = "NB";
-        states["New Hampshire"] = "NH";
-        states["New Jersey"] = "NJ";
-        states["New Mexico"] = "NM";
-        states["New York"] = "NY";
-        states["Newfoundland"] = "NF";
-        states["North Carolina"] = "NC";
+        states["Alabama"] = "AL"
+        states["Alaska"] = "AK"
+        states["Alberta"] = "AB"
+        states["American Samoa"] = "AS"
+        states["Arizona"] = "AZ"
+        states["Arkansas"] = "AR"
+        states["Armed Forces (AE)"] = "AE"
+        states["Armed Forces Americas"] = "AA"
+        states["Armed Forces Pacific"] = "AP"
+        states["British Columbia"] = "BC"
+        states["California"] = "CA"
+        states["Colorado"] = "CO"
+        states["Connecticut"] = "CT"
+        states["Delaware"] = "DE"
+        states["District Of Columbia"] = "DC"
+        states["Florida"] = "FL"
+        states["Georgia"] = "GA"
+        states["Guam"] = "GU"
+        states["Hawaii"] = "HI"
+        states["Idaho"] = "ID"
+        states["Illinois"] = "IL"
+        states["Indiana"] = "IN"
+        states["Iowa"] = "IA"
+        states["Kansas"] = "KS"
+        states["Kentucky"] = "KY"
+        states["Louisiana"] = "LA"
+        states["Maine"] = "ME"
+        states["Manitoba"] = "MB"
+        states["Maryland"] = "MD"
+        states["Massachusetts"] = "MA"
+        states["Michigan"] = "MI"
+        states["Minnesota"] = "MN"
+        states["Mississippi"] = "MS"
+        states["Missouri"] = "MO"
+        states["Montana"] = "MT"
+        states["Nebraska"] = "NE"
+        states["Nevada"] = "NV"
+        states["New Brunswick"] = "NB"
+        states["New Hampshire"] = "NH"
+        states["New Jersey"] = "NJ"
+        states["New Mexico"] = "NM"
+        states["New York"] = "NY"
+        states["Newfoundland"] = "NF"
+        states["North Carolina"] = "NC"
         states["North Dakota"] = "ND";
         states["Northwest Territories"] = "NT";
         states["Nova Scotia"] = "NS";
