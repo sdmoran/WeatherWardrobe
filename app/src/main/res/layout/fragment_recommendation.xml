@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/current_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="64dp"
+            android:textSize="70sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="62" />
+
+        <TextView
+            android:id="@+id/current_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/current_temp"
+            app:layout_constraintTop_toTopOf="@+id/current_temp"
+            tools:text="Rain" />
+
+        <TextView
+            android:id="@+id/current_wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/current_temp"
+            app:layout_constraintTop_toBottomOf="@+id/current_weather"
+            tools:text="Wind 10mph" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recommendation_recycler_view"
+            android:layout_width="409dp"
+            android:layout_height="572dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_temp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

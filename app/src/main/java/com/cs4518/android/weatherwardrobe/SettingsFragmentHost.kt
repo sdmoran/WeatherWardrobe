@@ -135,8 +135,17 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             }
         }
 
-        navToCurrentGarb.setOnClickListener  {
+        // For AVD
+        navToWeather.setOnClickListener  {
             val fragment = WeatherFragment()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+        }
+
+        navToCurrentGarb.setOnClickListener  {
+            val fragment = RecommendationFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

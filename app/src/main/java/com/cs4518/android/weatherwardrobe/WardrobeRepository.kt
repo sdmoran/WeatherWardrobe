@@ -43,6 +43,8 @@ class WardrobeRepository private constructor(context: Context) {
     fun getWind(): String = formatWind(dailyWeatherData.wind_speed, dailyWeatherData.wind_deg)
     fun getUv(): String = dailyWeatherData.uvi.toInt().toString()
 
+    fun getNumItems(): Int = wardrobeDao.getNumItems()
+
     fun getWardrobeItems(): LiveData<List<WardrobeItem>> = wardrobeDao.getWardrobeItems()
 
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?> = wardrobeDao.getWardrobeItem(id)
@@ -50,6 +52,20 @@ class WardrobeRepository private constructor(context: Context) {
     fun addWardrobeItem(wardrobeItem: WardrobeItem) {
         executor.execute {
             wardrobeDao.addWardrobeItem(wardrobeItem)
+        }
+    }
+
+    fun addDummyData() {
+        executor.execute {
+            val items = listOf<WardrobeItem>(
+                WardrobeItem(name = "Red Sweater", type = "Top", tags = "Warm,Fuzzy"),
+                WardrobeItem(name = "Blue Jeans", type = "Bottom", tags = "Warm"),
+                WardrobeItem(name = "Cargo Shorts", type = "Bottom", tags = "Cold"),
+                WardrobeItem(name = "Straw Hat", type = "Hat", tags = "Accessory")
+            )
+            for(it in items) {
+                wardrobeDao.addWardrobeItem(it)
+            }
         }
     }
 
@@ -65,6 +81,12 @@ class WardrobeRepository private constructor(context: Context) {
         fun initialize(context: Context) {
             if(INSTANCE == null) {
                 INSTANCE = WardrobeRepository(context)
+                Executors.newSingleThreadExecutor().execute {
+                    val r = get()
+                    if(r.getNumItems() == 0) {
+                        r.addDummyData()
+                    }
+                }
             }
         }
 
