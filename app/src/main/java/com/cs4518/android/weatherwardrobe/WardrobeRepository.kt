@@ -53,6 +53,20 @@ class WardrobeRepository private constructor(context: Context) {
         }
     }
 
+    fun addDummyData() {
+        executor.execute {
+            val items = listOf<WardrobeItem>(
+                WardrobeItem(name = "Red Sweater", type = "Top", tags = "Warm,Fuzzy"),
+                WardrobeItem(name = "Blue Jeans", type = "Bottom", tags = "Warm"),
+                WardrobeItem(name = "Cargo Shorts", type = "Bottom", tags = "Cold"),
+                WardrobeItem(name = "Straw Hat", type = "Hat", tags = "Accessory")
+            )
+            for(it in items) {
+                wardrobeDao.addWardrobeItem(it)
+            }
+        }
+    }
+
     fun clearDB() {
         executor.execute {
             wardrobeDao.clearDB()
