@@ -13,6 +13,9 @@ interface WardrobeDao {
     @Query("SELECT * FROM wardrobeitem")
     fun getWardrobeItems(): LiveData<List<WardrobeItem>>
 
+    @Query("SELECT count(*) FROM wardrobeitem")
+    fun getNumItems(): Int
+
     @Query("SELECT * FROM wardrobeitem WHERE id=(:id)")
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?>
 

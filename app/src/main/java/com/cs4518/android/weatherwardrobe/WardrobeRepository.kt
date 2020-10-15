@@ -43,6 +43,8 @@ class WardrobeRepository private constructor(context: Context) {
     fun getWind(): String = formatWind(dailyWeatherData.wind_speed, dailyWeatherData.wind_deg)
     fun getUv(): String = dailyWeatherData.uvi.toInt().toString()
 
+    fun getNumItems(): Int = wardrobeDao.getNumItems()
+
     fun getWardrobeItems(): LiveData<List<WardrobeItem>> = wardrobeDao.getWardrobeItems()
 
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?> = wardrobeDao.getWardrobeItem(id)
@@ -79,6 +81,12 @@ class WardrobeRepository private constructor(context: Context) {
         fun initialize(context: Context) {
             if(INSTANCE == null) {
                 INSTANCE = WardrobeRepository(context)
+                Executors.newSingleThreadExecutor().execute {
+                    val r = get()
+                    if(r.getNumItems() == 0) {
+                        r.addDummyData()
+                    }
+                }
             }
         }
 
