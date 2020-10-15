@@ -73,9 +73,9 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
                     wardrobeRepository.latitude = location.latitude
                     wardrobeRepository.longitude = location.longitude
                     Log.d("LOCALITY", "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}")
+                    OpenWeatherFetchr().fetchWeatherData()
                 }
             }
-            OpenWeatherFetchr().fetchWeatherData()
         }
 
 

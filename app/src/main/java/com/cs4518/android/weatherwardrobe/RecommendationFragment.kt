@@ -1,5 +1,6 @@
 package com.cs4518.android.weatherwardrobe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -22,6 +23,7 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
     private lateinit var wardrobeRepository: WardrobeRepository
     //private lateinit var liveDataItems: LiveData<List<WardrobeItem>>
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecommendationBinding.bind(view)
@@ -30,9 +32,9 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
         wardrobeRepository = WardrobeRepository.get()
 //        Log.d(TAG, wardrobeRepository.dailyWeatherData.toString())
 
-        binding.currentTemp.text = wardrobeRepository.dailyWeatherData.temp.day.toString()
-        binding.currentWeather.text = (wardrobeRepository.dailyWeatherData.pop * 100).toString()
-        binding.currentWind.text = wardrobeRepository.dailyWeatherData.wind_speed.toString()
+        binding.dayTemp.text = wardrobeRepository.getTempDay()
+        binding.chanceRain.text = wardrobeRepository.getChanceOfRain()
+        binding.currentWind.text = "Wind ${wardrobeRepository.getWind()}"
 
         binding.recommendationRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -87,8 +89,56 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
     }
 
     private fun updateUI(items: List<WardrobeItem>) {
-        val adapter = WardrobeItemAdapter(items)
+        val recommendations = getRecommendations(items)
+        val adapter = WardrobeItemAdapter(recommendations)
         binding.recommendationRecyclerView.adapter = adapter
+    }
+
+    private fun getRecommendations(items: List<WardrobeItem>): List<WardrobeItem> {
+        val filters: MutableList<String> = mutableListOf()
+
+        val dayHigh = wardrobeRepository.dailyWeatherData.temp.max
+        val dayLow = wardrobeRepository.dailyWeatherData.temp.min
+        val rainPercent = wardrobeRepository.dailyWeatherData.rain
+
+        // If rain % greater than 50, suggest something waterproof
+        if(rainPercent > .5) {
+            filters.add("Waterproof")
+        }
+
+        if(dayHigh > 288.706) { // 60 degrees Fahrenheit, seems reasonable as cutoff for cool/warm
+            filters.add("Cool")
+        }
+        else {
+            filters.add("Warm")
+        }
+
+        var top = items.filter { it ->
+            it.type == "Top"
+        }.firstOrNull()
+
+        var bottom = items.filter { it ->
+            it.type == "Bottom"
+        }.firstOrNull()
+
+        var accessory = items.filter { it ->
+            it.type == "Accessory"
+        }.firstOrNull()
+
+        val garments =  mutableListOf<WardrobeItem?>(top, bottom, accessory)
+
+        val ret: MutableList<WardrobeItem> = mutableListOf<WardrobeItem>()
+
+        for(i in 0 until garments.size) {
+            if(garments[i] == null) {
+                ret.add(WardrobeItem(name="No item found!"))
+            }
+            else {
+                ret.add(garments[i]!!)
+            }
+        }
+
+        return ret
     }
 
     companion object {
