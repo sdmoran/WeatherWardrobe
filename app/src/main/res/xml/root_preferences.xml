@@ -17,7 +17,7 @@
 -->
                 <SwitchPreferenceCompat
                     android:key="tempUnitKey"
-                    android:title="Toggle Fahrenheit/Celsius"/>
+                    android:title="Toggle Imperial/Metric"/>
 
                 <ListPreference
                     android:defaultValue="@string/dark_mode_def_value"

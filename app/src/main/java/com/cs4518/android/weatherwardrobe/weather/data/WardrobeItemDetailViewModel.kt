@@ -23,8 +23,12 @@ class WardrobeItemDetailViewModel() : ViewModel() {
         warDrobeIDLiveData.value = id
     }
 
-    fun saveWarDrobeItem(wardrobeItem: WardrobeItem) {
+    fun updateWarDrobeItem(wardrobeItem: WardrobeItem) {
         warDrobeRepository.updateWarDrobeItem(wardrobeItem)
+    }
+
+    fun saveWarDrobeItem(wardrobeItem: WardrobeItem) {
+        warDrobeRepository.addWardrobeItem(wardrobeItem)
     }
 
     fun getPhotoFile(wardrobeItem: WardrobeItem): File {

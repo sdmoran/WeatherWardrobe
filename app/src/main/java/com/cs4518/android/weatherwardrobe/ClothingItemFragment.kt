@@ -188,7 +188,11 @@ class ClothingItemFragment : Fragment() {
         tagsField.addTextChangedListener(tagWatcher)
 
         save_button.setOnClickListener{
-            wardrobeItemDetailViewModel.saveWarDrobeItem(warDrobeItem)
+            if(warDrobeItem.id == null){
+                wardrobeItemDetailViewModel.saveWarDrobeItem(warDrobeItem)
+            }else{
+                wardrobeItemDetailViewModel.updateWarDrobeItem(warDrobeItem)
+            }
         }
 
         photoButton.apply {
@@ -223,7 +227,7 @@ class ClothingItemFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        wardrobeItemDetailViewModel.saveWarDrobeItem(warDrobeItem)
+        wardrobeItemDetailViewModel.updateWarDrobeItem(warDrobeItem)
     }
 
     override fun onDetach() {
