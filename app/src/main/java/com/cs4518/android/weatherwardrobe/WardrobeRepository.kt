@@ -1,6 +1,7 @@
 package com.cs4518.android.weatherwardrobe
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
@@ -64,6 +65,18 @@ class WardrobeRepository private constructor(context: Context) {
     fun addWardrobeItem(wardrobeItem: WardrobeItem) {
         executor.execute {
             wardrobeDao.addWardrobeItem(wardrobeItem)
+        }
+    }
+
+    fun addOrUpdateItem(wardrobeItem: WardrobeItem) {
+        executor.execute {
+            val exists = wardrobeDao.itemExists(wardrobeItem.id)
+            if(!exists) {
+                addWardrobeItem(wardrobeItem)
+            }
+            else {
+                updateWarDrobeItem(wardrobeItem)
+            }
         }
     }
 

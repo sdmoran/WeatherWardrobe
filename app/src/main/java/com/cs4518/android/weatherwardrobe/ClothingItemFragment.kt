@@ -51,7 +51,6 @@ class ClothingItemFragment : Fragment() {
         val wardrobeItemId: UUID = arguments?.getSerializable(ARG_WARDROBEITEM_ID) as UUID
         Log.d(TAG, "args bundle wardrobeItem ID: $wardrobeItemId")
         wardrobeItemDetailViewModel.loadWardrobeItem(wardrobeItemId)
-        // Eventually, load crime from database
     }
 
     override fun onCreateView(
@@ -188,11 +187,12 @@ class ClothingItemFragment : Fragment() {
         tagsField.addTextChangedListener(tagWatcher)
 
         save_button.setOnClickListener{
-            if(warDrobeItem.id == null){
-                wardrobeItemDetailViewModel.saveWarDrobeItem(warDrobeItem)
-            }else{
-                wardrobeItemDetailViewModel.updateWarDrobeItem(warDrobeItem)
-            }
+            wardrobeItemDetailViewModel.addOrUpdateItem(warDrobeItem)
+//            if(warDrobeItem.id == null){
+//                wardrobeItemDetailViewModel.saveWarDrobeItem(warDrobeItem)
+//            }else{
+//                wardrobeItemDetailViewModel.updateWarDrobeItem(warDrobeItem)
+//            }
         }
 
         photoButton.apply {

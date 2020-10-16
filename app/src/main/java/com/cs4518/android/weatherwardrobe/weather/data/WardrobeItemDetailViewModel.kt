@@ -27,6 +27,10 @@ class WardrobeItemDetailViewModel() : ViewModel() {
         warDrobeRepository.updateWarDrobeItem(wardrobeItem)
     }
 
+    fun addOrUpdateItem(wardrobeItem: WardrobeItem) {
+        warDrobeRepository.addOrUpdateItem(wardrobeItem)
+    }
+
     fun saveWarDrobeItem(wardrobeItem: WardrobeItem) {
         warDrobeRepository.addWardrobeItem(wardrobeItem)
     }

@@ -16,6 +16,9 @@ interface WardrobeDao {
     @Query("SELECT * FROM wardrobeitem WHERE id=(:id)")
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?>
 
+    @Query("SELECT EXISTS(SELECT * FROM wardrobeitem where id =(:id))")
+    fun itemExists(id: UUID) : Boolean
+
     @Update
     fun updateWardrobeItem(wardrobeItem: WardrobeItem)
 
