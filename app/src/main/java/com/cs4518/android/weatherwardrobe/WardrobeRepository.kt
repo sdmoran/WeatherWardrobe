@@ -30,10 +30,10 @@ class WardrobeRepository private constructor(context: Context) {
     private val executor = Executors.newSingleThreadExecutor()
     private val filesDir = context.applicationContext.filesDir
 
-    var latitude: Double = 0.0
-    var longitude: Double = 0.0
-    var cityName: String = ""
-    var stateName: String = ""
+    var latitude: Double = 42.262592
+    var longitude: Double = -71.802292
+    var cityName: String = "Worcester"
+    var stateName: String = "MA"
     var doneExecuting: Boolean = false
     var executed: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     var pressedGarb: Boolean = false
