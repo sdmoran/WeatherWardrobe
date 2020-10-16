@@ -31,7 +31,7 @@ import com.google.android.gms.location.LocationServices
 import java.util.*
 
 private const val TAG = "MainActivity"
-class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, Preference.SummaryProvider<ListPreference>, WardrobeListFragment.Callbacks{
+class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, Preference.SummaryProvider<ListPreference>, WardrobeListFragment.Callbacks {
 
     private lateinit var navToWeather: Button
     private lateinit var navToCurrentGarb: Button
@@ -240,6 +240,15 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
 
     override fun onWarDrobeSelected(id: UUID) {
         val fragment = ClothingItemFragment.newInstance(id)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onAddNewItem() {
+        val fragment = ClothingItemFragment.newInstance(UUID.randomUUID())
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, fragment)

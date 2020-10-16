@@ -33,6 +33,7 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
      */
     interface Callbacks {
         fun onWarDrobeSelected(id: UUID)
+        fun onAddNewItem()
     }
 
     private var callbacks: Callbacks? = null
@@ -100,6 +101,10 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
                     updateUI(items)
                 }
             })
+        }
+
+        binding.addItemButton.setOnClickListener {
+            callbacks?.onAddNewItem()
         }
     }
 
