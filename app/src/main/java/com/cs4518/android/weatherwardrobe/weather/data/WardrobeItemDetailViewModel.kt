@@ -16,7 +16,7 @@ class WardrobeItemDetailViewModel() : ViewModel() {
 
     var wardrobeLiveData: LiveData<WardrobeItem?> =
         Transformations.switchMap(warDrobeIDLiveData) { id ->
-            warDrobeRepository.getWardrobeItem(id)
+            warDrobeRepository.guaranteeGetWardrobeItem(id)
         }
 
     fun loadWardrobeItem(id: UUID) {
@@ -29,10 +29,6 @@ class WardrobeItemDetailViewModel() : ViewModel() {
 
     fun addOrUpdateItem(wardrobeItem: WardrobeItem) {
         warDrobeRepository.addOrUpdateItem(wardrobeItem)
-    }
-
-    fun saveWarDrobeItem(wardrobeItem: WardrobeItem) {
-        warDrobeRepository.addWardrobeItem(wardrobeItem)
     }
 
     fun getPhotoFile(wardrobeItem: WardrobeItem): File {

@@ -56,6 +56,19 @@ class WardrobeRepository private constructor(context: Context) {
 
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?> = wardrobeDao.getWardrobeItem(id)
 
+    // Guaranteed to return a WardrobeItem. If it doesn't yet exist, makes it, then returns.
+    // Necessary for photoURI to work as intended when adding a brand new ClothingItem to
+    // wardrobe.
+    fun guaranteeGetWardrobeItem(id: UUID): LiveData<WardrobeItem?> {
+        executor.execute {
+            val exists = wardrobeDao.itemExists(id)
+            if(!exists) {
+                addWardrobeItem(WardrobeItem(id))
+            }
+        }
+        return getWardrobeItem(id)
+    }
+
     fun updateWarDrobeItem(wardrobeItem: WardrobeItem) {
         executor.execute {
             wardrobeDao.updateWardrobeItem(wardrobeItem)

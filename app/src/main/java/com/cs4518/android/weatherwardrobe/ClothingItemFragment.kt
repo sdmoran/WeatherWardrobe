@@ -78,6 +78,7 @@ class ClothingItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         wardrobeItemDetailViewModel.wardrobeLiveData.observe(
             viewLifecycleOwner,
             Observer { warDrobeItem ->
