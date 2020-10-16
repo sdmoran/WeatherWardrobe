@@ -107,56 +107,13 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
         navToSettings = findViewById(R.id.nav_button4)
 
         navToWeather.setOnClickListener  {
-            if (checkPermission(
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )) {
-                fusedLocationClient?.lastLocation?.
-                addOnSuccessListener(
-                    this
-                ) { location: Location? ->
-                    if (location == null) {
-                        Log.d("LOCALITY", "No location")
-                    } else location.apply {
-                        val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                        Log.d("LOCALITY", addresses[0].locality)
-
-
-                        if (addresses.isNotEmpty()) {
-                            wardrobeRepository.cityName = addresses[0].locality
-                            wardrobeRepository.stateName = states[addresses[0].adminArea].toString()
-                        }
-                        Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
-
-                        wardrobeRepository.latitude = location.latitude
-                        wardrobeRepository.longitude = location.longitude
-                        Log.d("LOCALITY", "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}")
-                        val fragment = WeatherFragment()
-                        supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, fragment)
-                            .commit()
-                    }
-                }
-            }
-        }
-
-        val executedObserver = Observer<Boolean> { _ ->
-                val fragment = RecommendationFragment()
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit()
-        }
-        wardrobeRepository.executed.observe(this, executedObserver)
-
-        navToCurrentGarb.setOnClickListener  {
-            wardrobeRepository.pressedGarb = true
-            if(wardrobeRepository.executed.value == null) {
-                if(checkPermission(
+            if(wardrobeRepository.state != "weather") {
+                wardrobeRepository.state = "weather"
+                if (checkPermission(
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION
-                    )) {
+                    )
+                ) {
                     fusedLocationClient?.lastLocation?.addOnSuccessListener(
                         this
                     ) { location: Location? ->
@@ -165,13 +122,13 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
                         } else location.apply {
                             val addresses: List<Address> =
                                 geocoder.getFromLocation(location.latitude, location.longitude, 1)
-
                             Log.d("LOCALITY", addresses[0].locality)
 
 
                             if (addresses.isNotEmpty()) {
                                 wardrobeRepository.cityName = addresses[0].locality
-                                wardrobeRepository.stateName = states[addresses[0].adminArea].toString()
+                                wardrobeRepository.stateName =
+                                    states[addresses[0].adminArea].toString()
                             }
                             Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
 
@@ -181,34 +138,102 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
                                 "LOCALITY",
                                 "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}"
                             )
-                            OpenWeatherFetchr().fetchWeatherData()
+                            val fragment = WeatherFragment()
+                            supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .commit()
                         }
                     }
                 }
-            }else {
+            }
+        }
+
+        val executedObserver = Observer<Boolean> { _ ->
+                wardrobeRepository.state = "reccomend"
                 val fragment = RecommendationFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit()
+
+        }
+        wardrobeRepository.executed.observe(this, executedObserver)
+
+        navToCurrentGarb.setOnClickListener  {
+            if(wardrobeRepository.state != "reccomend") {
+                wardrobeRepository.state = "reccomend"
+                wardrobeRepository.pressedGarb = true
+                if (wardrobeRepository.executed.value == null) {
+                    if (checkPermission(
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
+                    ) {
+                        fusedLocationClient?.lastLocation?.addOnSuccessListener(
+                            this
+                        ) { location: Location? ->
+                            if (location == null) {
+                                Log.d("LOCALITY", "No location")
+                            } else location.apply {
+                                val addresses: List<Address> =
+                                    geocoder.getFromLocation(
+                                        location.latitude,
+                                        location.longitude,
+                                        1
+                                    )
+
+                                Log.d("LOCALITY", addresses[0].locality)
+
+
+                                if (addresses.isNotEmpty()) {
+                                    wardrobeRepository.cityName = addresses[0].locality
+                                    wardrobeRepository.stateName =
+                                        states[addresses[0].adminArea].toString()
+                                }
+                                Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
+
+                                wardrobeRepository.latitude = location.latitude
+                                wardrobeRepository.longitude = location.longitude
+                                Log.d(
+                                    "LOCALITY",
+                                    "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}"
+                                )
+                                OpenWeatherFetchr().fetchWeatherData()
+                            }
+                        }
+                    }
+                } else {
+                    val fragment = RecommendationFragment()
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit()
+                }
             }
         }
 
 
         navToWardrobe.setOnClickListener  {
-            val fragment = WardrobeListFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
+            if(wardrobeRepository.state != "wardrobe") {
+                wardrobeRepository.state = "wardrobe"
+                val fragment = WardrobeListFragment()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+            }
+
         }
 
-        navToSettings.setOnClickListener  {
-            val fragment = AppSettingsFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
+        navToSettings.setOnClickListener {
+                wardrobeRepository.state = "settings"
+                val fragment = AppSettingsFragment()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+
         }
 
     }
@@ -264,9 +289,9 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             }
         }
         if (key == "tempUnitKey") {
-            Log.i(TAG, "Preference value was updated to: " + sharedPreferences?.getBoolean(key, true))
+            Log.i(TAG, "Preference value was updated to: " + sharedPreferences?.getBoolean(key, false))
             //True = fahrenheit, false = Celsius
-            wardrobeRepository.farenheit = sharedPreferences?.getBoolean(key, true)!!
+            wardrobeRepository.farenheit = sharedPreferences?.getBoolean(key, false)!!
 
         }
     }
