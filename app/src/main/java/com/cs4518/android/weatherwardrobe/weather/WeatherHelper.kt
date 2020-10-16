@@ -5,6 +5,8 @@ import com.cs4518.android.weatherwardrobe.WardrobeRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
+private val wardrobeRepository = WardrobeRepository.get()
+
 
 fun formatUVDesc(uv: Float): String{
     return when(uv.toInt()){
@@ -24,7 +26,10 @@ fun formatDewPoint(dewPointTempKelvin: Float): String{
 }
 
 fun formatVisibility(visibility: Int): String{
-    return "${"%.2f".format(visibility / 1609.34)} Mi"
+    return when(wardrobeRepository.farenheit){
+        true -> "${"%.2f".format(visibility / 1609.34)} Mi"
+        else -> "${"%.2f".format((visibility / 1000.00))} Km"
+    }
 }
 
 fun formatPressure(pressure: Int): String{
@@ -40,7 +45,10 @@ fun formatMinMax(minTempKelvin: Float, maxTempKelvin: Float): String{
 }
 
 fun formatTemp(tempKelvin: Float) : String {
-    return "${((tempKelvin - 273.15) * 9.0/5.0 + 32).toInt()}°"
+    return when(wardrobeRepository.farenheit){
+        true -> "${((tempKelvin - 273.15) * 9.0/5.0 + 32).toInt()}°"
+        else -> "${(tempKelvin - 273.15).toInt()}°"
+    }
 }
 
 fun formatFeelsLike(feelsLike: Float): String{
@@ -71,7 +79,10 @@ fun formatWind(windSpeed: Float, windDeg: Int): String{
         "NNW"
     )
     val modWindSpeed = (windSpeed*2.23694).toInt()
-    return "${arr[(index % 16)]} $modWindSpeed MPH"
+    return when(wardrobeRepository.farenheit){
+        true -> "${arr[(index % 16)]} $modWindSpeed MPH"
+        else -> "${arr[(index % 16)]} ${(modWindSpeed*1.609).toInt()} KPH"
+    }
 }
 
 fun weatherIcon(weatherItemIcon: String): Int{
