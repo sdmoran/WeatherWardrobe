@@ -7,10 +7,17 @@
 
         <PreferenceCategory android:title="@string/ui">
 
+<!--
                 <Preference
                     android:key="langAndReg_key"
                     android:summary="Change the language and region"
                     android:title="@string/language_setting_label" />
+
+
+-->
+                <SwitchPreferenceCompat
+                    android:key="tempUnitKey"
+                    android:title="Toggle Fahrenheit/Celsius"/>
 
                 <ListPreference
                     android:defaultValue="@string/dark_mode_def_value"
@@ -19,22 +26,8 @@
                     android:key="@string/dark_mode"
                     android:title="@string/dark_mode"/>
 
-                <Preference
-                    android:key="units_key"
-                    android:summary="Change units"
-                    android:title="@string/units_setting_label" />
 
         </PreferenceCategory>
-
-        <Preference
-            android:key="feedback_key"
-            android:summary="Report technical issues or suggest new features"
-            android:title="@string/send_feedback_label" />
-
-        <Preference
-            android:key="help_key"
-            android:summary="Need Help?"
-            android:title="@string/help_label" />
 
 </PreferenceScreen>
 

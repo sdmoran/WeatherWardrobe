@@ -30,7 +30,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import java.util.*
 
-class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, Preference.SummaryProvider<ListPreference>{
+private const val TAG = "MainActivity"
+class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener, Preference.SummaryProvider<ListPreference>, WardrobeListFragment.Callbacks{
 
     private lateinit var navToWeather: Button
     private lateinit var navToCurrentGarb: Button
@@ -211,6 +212,16 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
         }
 
     }
+
+    override fun onWarDrobeSelected(id: UUID) {
+        val fragment = ClothingItemFragment.newInstance(id)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     private val permissionId = 42
     private fun checkPermission(vararg perm: String) : Boolean {
         val havePermissions = perm.toList().all {
@@ -247,12 +258,15 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             if (it == darkModeString) sharedPreferences?.let { pref ->
                 val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
                 when (pref.getString(darkModeString, darkModeValues[0])) {
-                    darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    darkModeValues[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    darkModeValues[3] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+                    darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
             }
+        }
+        if (key == "tempUnitKey") {
+            Log.i(TAG, "Preference value was updated to: " + sharedPreferences?.getBoolean(key, true))
+            //True = fahrenheit, false = Celsius
+
         }
     }
 

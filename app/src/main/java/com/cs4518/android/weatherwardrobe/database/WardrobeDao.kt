@@ -1,10 +1,7 @@
 package com.cs4518.android.weatherwardrobe.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.cs4518.android.weatherwardrobe.WardrobeItem
 import java.util.*
 
@@ -18,6 +15,9 @@ interface WardrobeDao {
 
     @Query("SELECT * FROM wardrobeitem WHERE id=(:id)")
     fun getWardrobeItem(id: UUID): LiveData<WardrobeItem?>
+
+    @Update
+    fun updateWardrobeItem(wardrobeItem: WardrobeItem)
 
     @Insert
     fun addWardrobeItem(wardrobeItem: WardrobeItem)

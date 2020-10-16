@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -21,7 +19,7 @@
         android:id="@+id/nav_button1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Weather"
         app:layout_constraintBaseline_toBaselineOf="@+id/nav_button2"
         app:layout_constraintEnd_toStartOf="@+id/nav_button2"
         app:layout_constraintStart_toStartOf="parent" />
@@ -30,7 +28,7 @@
         android:id="@+id/nav_button2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Wear Now"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nav_button3"
         app:layout_constraintStart_toEndOf="@+id/nav_button1" />
@@ -39,7 +37,7 @@
         android:id="@+id/nav_button3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Wardrobe"
         app:layout_constraintBaseline_toBaselineOf="@+id/nav_button2"
         app:layout_constraintEnd_toStartOf="@+id/nav_button4"
         app:layout_constraintStart_toEndOf="@+id/nav_button2" />
@@ -48,7 +46,7 @@
         android:id="@+id/nav_button4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Settings"
         app:layout_constraintBaseline_toBaselineOf="@+id/nav_button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nav_button3" />
