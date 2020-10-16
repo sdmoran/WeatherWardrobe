@@ -21,9 +21,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
-import com.cs4518.android.weatherwardrobe.weather.WardrobeItemDetailViewModel
-import kotlinx.android.synthetic.main.clothing_item_fragment.*
+import com.cs4518.android.weatherwardrobe.weather.data.WardrobeItemDetailViewModel
 import java.io.File
 import java.util.*
 private const val TAG = "ClothingItemFragment"
@@ -153,7 +151,7 @@ class ClothingItemFragment : Fragment() {
                 before: Int,
                 count: Int
             ) {
-                warDrobeItem.name = sequence.toString()
+                warDrobeItem.type = sequence.toString()
             }
 
             override fun afterTextChanged(sequence: Editable?) {
@@ -177,7 +175,7 @@ class ClothingItemFragment : Fragment() {
                 before: Int,
                 count: Int
             ) {
-                warDrobeItem.name = sequence.toString()
+                warDrobeItem.tags = sequence.toString()
             }
 
             override fun afterTextChanged(sequence: Editable?) {
