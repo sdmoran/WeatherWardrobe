@@ -264,9 +264,9 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             }
         }
         if (key == "tempUnitKey") {
-            Log.i(TAG, "Preference value was updated to: " + sharedPreferences?.getBoolean(key, true))
+            Log.i(TAG, "Preference value was updated to: " + sharedPreferences?.getBoolean(key, false))
             //True = fahrenheit, false = Celsius
-            wardrobeRepository.farenheit = sharedPreferences?.getBoolean(key, true)!!
+            wardrobeRepository.farenheit = sharedPreferences?.getBoolean(key, false)!!
 
         }
     }
