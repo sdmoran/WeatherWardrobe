@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.GridLayout
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,9 @@ import com.cs4518.android.weatherwardrobe.databinding.FragmentWardrobeListBindin
 import com.cs4518.android.weatherwardrobe.databinding.ListItemWardrobeBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var photoView: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,11 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     private inner class ClothingItemHolder(private val binding: ListItemWardrobeBinding) :
             RecyclerView.ViewHolder(binding.root) {
-
     }
 
     private inner class ClothingAdapter() :
         RecyclerView.Adapter<ClothingItemHolder>() {
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClothingItemHolder {
                 val binding = DataBindingUtil.inflate<ListItemWardrobeBinding>(
                     layoutInflater,
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         override fun onBindViewHolder(holder: ClothingItemHolder, position: Int) {
-            TODO("Not yet implemented")
+
         }
 
         override fun getItemCount(): Int {

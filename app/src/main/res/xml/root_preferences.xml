@@ -7,25 +7,17 @@
 
         <PreferenceCategory android:title="@string/ui">
 
-<!--
-                <Preference
-                    android:key="langAndReg_key"
-                    android:summary="Change the language and region"
-                    android:title="@string/language_setting_label" />
-
-
--->
                 <SwitchPreferenceCompat
                     android:key="tempUnitKey"
-                    android:title="Toggle Imperial/Metric"/>
+                    android:title="Toggle Metric/Imperial"
+                    android:defaultValue="true"/>
 
                 <ListPreference
-                    android:defaultValue="@string/dark_mode_def_value"
+                    android:defaultValue="true"
                     android:entries="@array/dark_mode_entries"
                     android:entryValues="@array/dark_mode_values"
                     android:key="@string/dark_mode"
                     android:title="@string/dark_mode"/>
-
 
         </PreferenceCategory>
 
