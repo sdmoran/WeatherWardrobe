@@ -113,17 +113,45 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
             filters.add("Warm")
         }
 
-        var top = items.filter { it ->
-            it.type == "Top"
-        }.firstOrNull()
+        var candidateTops = items
+        var candidateBottoms = items
+        var candidateAccessories = items
 
-        var bottom = items.filter { it ->
-            it.type == "Bottom"
-        }.firstOrNull()
+        // Try to apply filters to each article of clothing and see what we get
+        for(f in filters) {
+            candidateTops = candidateTops.filter { it ->
+                it.type == "Top" && it.tags.contains(f, ignoreCase = true)
+            }
+            candidateBottoms = candidateBottoms.filter { it ->
+                it.type == "Bottom" && it.tags.contains(f, ignoreCase = true)
+            }
+            candidateAccessories = candidateAccessories.filter { it ->
+                it.type == "Accessory" && it.tags.contains(f, ignoreCase = true)
+            }
+        }
 
-        var accessory = items.filter { it ->
-            it.type == "Accessory"
-        }.firstOrNull()
+        var top = candidateTops.shuffled().firstOrNull()
+        var bottom = candidateBottoms.shuffled().firstOrNull()
+        var accessory = candidateAccessories.shuffled().firstOrNull()
+
+        // If no clothing matches the criteria, try to just get a random one of the proper type
+        if(top == null) {
+            top = items.filter { it ->
+                it.type == "Top"
+            }.firstOrNull()
+        }
+
+        if(bottom == null) {
+            bottom = items.filter { it ->
+                it.type == "Bottom"
+            }.firstOrNull()
+        }
+
+        if(accessory == null) {
+            accessory = items.filter { it ->
+                it.type == "Accessory"
+            }.firstOrNull()
+        }
 
         val garments =  mutableListOf<WardrobeItem?>(top, bottom, accessory)
 
