@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cs4518.android.weatherwardrobe.databinding.FragmentWardrobeListBinding
 import com.cs4518.android.weatherwardrobe.databinding.ListItemWardrobeBinding
+import java.io.File
 import java.util.*
 
 private const val TAG = "WardrobeListFragment"
@@ -117,6 +119,10 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
     private inner class WardrobeItemHolder(private val binding: ListItemWardrobeBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
+        private lateinit var photoFile: File
+        val photoView: ImageView = itemView.findViewById(R.id.warDrobeMiniImage)
+        private val filesDir = context?.applicationContext?.filesDir
+
         private var itemCopy = WardrobeItem()
 
         init {
@@ -129,6 +135,17 @@ class WardrobeListFragment : Fragment(R.layout.fragment_wardrobe_list) {
                 viewModel?.item = item
                 itemCopy = item
                 executePendingBindings()
+                photoFile = File(filesDir, item.photoFileName)
+                updatePhotoView()
+            }
+        }
+
+        private fun updatePhotoView() {
+            if (photoFile.exists()) {
+                val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+                photoView.setImageBitmap(bitmap)
+            } else {
+                photoView.setImageDrawable(null)
             }
         }
 

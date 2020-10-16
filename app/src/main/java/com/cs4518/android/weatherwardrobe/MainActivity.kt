@@ -15,8 +15,6 @@ import com.cs4518.android.weatherwardrobe.databinding.ListItemWardrobeBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var photoView: ImageView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
     private inner class ClothingItemHolder(private val binding: ListItemWardrobeBinding) :
             RecyclerView.ViewHolder(binding.root) {
+
+
     }
 
     private inner class ClothingAdapter() :
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     false
                 )
                 return ClothingItemHolder(binding)
-            }
+        }
 
         override fun onBindViewHolder(holder: ClothingItemHolder, position: Int) {
 

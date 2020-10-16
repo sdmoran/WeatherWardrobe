@@ -41,7 +41,7 @@ class ClothingItemFragment : Fragment() {
     private lateinit var photoButton: ImageButton
     private lateinit var photoView: ImageView
 
-    private val wardrobeItemDetailViewModel: WardrobeItemDetailViewModel by lazy {
+    val wardrobeItemDetailViewModel: WardrobeItemDetailViewModel by lazy {
         ViewModelProviders.of(this).get(WardrobeItemDetailViewModel::class.java)
     }
 

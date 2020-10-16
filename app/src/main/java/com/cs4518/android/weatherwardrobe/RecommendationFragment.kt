@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cs4518.android.weatherwardrobe.databinding.FragmentRecommendationBinding
 import com.cs4518.android.weatherwardrobe.databinding.ListItemWardrobeBinding
+import java.io.File
 
 private const val TAG = "RecommendationFragment"
 
@@ -52,6 +54,10 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
     private inner class WardrobeItemHolder(private val binding: ListItemWardrobeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private lateinit var photoFile: File
+        val photoView: ImageView = itemView.findViewById(R.id.warDrobeMiniImage)
+        private val filesDir = context?.applicationContext?.filesDir
+
         init {
             binding.viewModel = WardrobeItemViewModel()
         }
@@ -60,8 +66,20 @@ class RecommendationFragment : Fragment(R.layout.fragment_recommendation) {
             binding.apply {
                 viewModel?.item = item
                 executePendingBindings()
+                photoFile = File(filesDir, item.photoFileName)
+                updatePhotoView()
             }
         }
+
+        private fun updatePhotoView() {
+            if (photoFile.exists()) {
+                val bitmap = getScaledBitmap(photoFile.path, requireActivity())
+                photoView.setImageBitmap(bitmap)
+            } else {
+                photoView.setImageDrawable(null)
+            }
+        }
+
     }
 
     private inner class WardrobeItemAdapter(private var items: List<WardrobeItem>) :
