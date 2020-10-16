@@ -38,6 +38,7 @@ class WardrobeRepository private constructor(context: Context) {
     var executed: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     var pressedGarb: Boolean = false
     var farenheit: Boolean = true
+    var state: String = "Settings"
 
     lateinit var dailyWeatherData: DayWeatherItem
 
