@@ -89,16 +89,46 @@ class SettingsFragmentHost : AppCompatActivity(), SharedPreferences.OnSharedPref
             supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null) {
-            val fragment = AppSettingsFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragment_container, fragment)
-                .commit()
+            if(wardrobeRepository.state != "weather") {
+                wardrobeRepository.state = "weather"
+                if (checkPermission(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                ) {
+                    fusedLocationClient?.lastLocation?.addOnSuccessListener(
+                        this
+                    ) { location: Location? ->
+                        if (location == null) {
+                            Log.d("LOCALITY", "No location")
+                        } else location.apply {
+                            val addresses: List<Address> =
+                                geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                            Log.d("LOCALITY", addresses[0].locality)
 
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                PreferenceManager.getDefaultSharedPreferences(this)
-                    .registerOnSharedPreferenceChangeListener(this)
 
+                            if (addresses.isNotEmpty()) {
+                                wardrobeRepository.cityName = addresses[0].locality
+                                wardrobeRepository.stateName =
+                                    states[addresses[0].adminArea].toString()
+                            }
+                            Log.d("LOCALITY", "${location.latitude} ${location.longitude}")
+
+                            wardrobeRepository.latitude = location.latitude
+                            wardrobeRepository.longitude = location.longitude
+                            Log.d(
+                                "LOCALITY",
+                                "${wardrobeRepository.latitude} ${wardrobeRepository.longitude}"
+                            )
+                            val fragment = WeatherFragment()
+                            supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .commit()
+                        }
+                    }
+                }
+            }
         }
 
         navToWeather = findViewById(R.id.nav_button1)
